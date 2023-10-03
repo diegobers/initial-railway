@@ -1,0 +1,20 @@
+/*!
+ *  .a === class="a";                    |   p === <p> elements;     
+ *  .a.b === class="a b";                |   h1.border === <p> with class="intro";
+ *  .a .b === b that descendant of a;    |   div, p === all <div> and <p>;
+ *  #a === id="a";                       |   div p === <p> inside <div>;
+ *  * === all elements;                 
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.logo {
+  width: 80px; }
