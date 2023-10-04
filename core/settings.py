@@ -7,7 +7,6 @@ from configurations import Configuration, values
 
 env = environ.Env()
 
-
 class Dev(Configuration):
     
     # Set base directory
@@ -24,6 +23,21 @@ class Dev(Configuration):
 
     ALLOWED_HOSTS = values.ListValue(['*', 'localhost'])
 
+    AUTH_USER_MODEL = 'accounts.MyCustomUser'
+
+    # Auth
+    LOGIN_URL = 'account_login'
+    LOGIN_REDIRECT_URL = 'home'
+    LOGOUT_REDIRECT_URL = 'home'
+
+    # AllAuth Account
+    ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+    ACCOUNT_EMAIL_REQUIRED = True
+    ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+    ACCOUNT_EMAIL_REQUIRED = True
+    ACCOUNT_EMAIL_VERIFICATION = 'none'
+    ACCOUNT_LOGOUT_ON_GET = True
+
     # App's definition
     INSTALLED_APPS = [
         'django.contrib.admin',
@@ -32,6 +46,16 @@ class Dev(Configuration):
         'django.contrib.sessions',
         'django.contrib.messages',
         'django.contrib.staticfiles',
+        #'django.contrib.sites',
+
+        # third lib
+        'allauth',
+        'allauth.account',
+        'allauth.socialaccount',
+        #'allauth.socialaccount.providers.google',
+
+        # custom apps
+        'accounts',
     ]
 
     MIDDLEWARE = [
@@ -43,6 +67,7 @@ class Dev(Configuration):
             'django.contrib.auth.middleware.AuthenticationMiddleware',
             'django.contrib.messages.middleware.MessageMiddleware',
             'django.middleware.clickjacking.XFrameOptionsMiddleware',
+            'allauth.account.middleware.AccountMiddleware',
         ]
 
     ROOT_URLCONF = 'core.urls'
@@ -98,6 +123,11 @@ class Dev(Configuration):
     # Default primary key field type
     DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+    # Backends Auth
+    AUTHENTICATION_BACKENDS = [
+        'django.contrib.auth.backends.ModelBackend',
+        'allauth.account.auth_backends.AuthenticationBackend',
+    ] 
 
 
 class Prod(Dev):    
@@ -114,7 +144,7 @@ class Prod(Dev):
     }
 
     # FORM SUBMISSION
-    #CSRF_ALLOWED_ORIGINS = ['https://up.railway.app'] 
-    #CSRF_TRUSTED_ORIGINS = ['https://up.railway.app']
-    #CORS_ORIGINS_WHITELIST = ['https://up.railway.app']
+    CSRF_ALLOWED_ORIGINS = ['https://initial-railway-production.up.railway.app'] 
+    CSRF_TRUSTED_ORIGINS = ['https://initial-railway-production.up.railway.app']
+    CORS_ORIGINS_WHITELIST = ['https://initial-railway-production.up.railway.app']
 

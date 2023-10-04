@@ -44,19 +44,47 @@
               <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
             </li>
           </ul>
-        
+
+
+        {% if request.user.is_authenticated %}
+
+          {% if request.user.is_superuser %}
+            <li class='nav-item'>
+              <a class='nav-link' href="admin">
+                <i class="fa-solid fa-lock"></i> Admin
+              </a>
+            </li>
+          {% else %}
+            <li class='nav-item'>
+              <a class='nav-link' href="{% url 'home' %}">
+                <i class="fa-solid fa-right-from-bracket"></i> Painel - {{request.user}}
+              </a>
+            </li> 
+          {% endif %}
+          
+          <li class='nav-item'>
+            <a class='nav-link' href="{% url 'account_logout' %}">
+              <i class="fa-solid fa-right-from-bracket"></i> Sair
+            </a>
+          </li>
+        {% else %}
+          <li class='nav-item'>
+            <a class='nav-link' href="{% url 'account_signup' %}">
+              <i class="fa-solid fa-user-plus"></i> Cadastrar
+            </a>
+          </li>
+          <li class='nav-item'>
+            <a class='nav-link' href="{% url 'account_login' %}">
+              <i class="fa-solid fa-right-to-bracket"></i> Entrar
+            </a>
+          </li>
+        {% endif %}
+
         </div>
       </div>
     </nav>
     <!-- End Navbar -->
 
-
-
-
-
-
-
-    
     <script src="{% static 'js/bootstrap.min.js' %} "></script>
   </body>
 </html> 
